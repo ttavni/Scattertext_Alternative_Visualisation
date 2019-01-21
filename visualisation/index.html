@@ -1,0 +1,552 @@
+<html lang="en">
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="Modaltitle"></h4>
+      </div>
+      <div class="modal-body">
+        <p id="pExample"> </p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+    <head>
+        <meta charset="utf-8">
+        <title> ScatterText </title>
+
+          <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+        <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet'>
+<link href='https://fonts.googleapis.com/css?family=Karla' rel='stylesheet'>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script> -->
+
+<!-- <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+ -->
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<style type="text/css">
+
+
+.slider2::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 23px;
+  height: 24px;
+  border: 0;
+  background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZ3DPkJm4GWDLtUrvYL299DgJme1vywoMdF83iN-TOiT6QXser');
+  cursor: pointer;
+  background-size: cover;
+}
+
+.slider2::-moz-range-thumb {
+  width: 23px;
+  height: 20px;
+  border: 0;
+  background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZ3DPkJm4GWDLtUrvYL299DgJme1vywoMdF83iN-TOiT6QXser');
+  cursor: pointer;
+  background-size: cover;
+}
+
+/*container for gene search box*/
+#gene_search_container{
+  margin-top: 10px;
+  /*needed for some reason*/
+  margin-left: 0px;
+  display: none:;
+}
+
+#word_search_box{
+    bottom: 0;
+    right: 0;
+    position: absolute;
+/*  width:120px;*/
+  /*float:left;*/
+  /*display: none;*/
+}
+
+#word_search_button{
+  /*width:50px;*/
+    position: absolute;
+bottom: 0;
+right: 0;
+
+/*  margin-top:-35px;
+  margin-right:15px;
+  margin-bottom: 25px;*/
+  /*display: none;*/
+}
+
+
+body {
+    background-color: white;
+    font-family: 'Inconsolata'; 
+}
+
+svg {
+    background-color: white;
+}
+
+circle {
+    opacity: .5;
+    cursor: pointer;
+}
+
+circle:hover {
+    fill: orange;
+}
+
+text.word {
+    font-size: "3px";
+    stroke-opacity: .8;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: none;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-family: 'Inconsolata';
+    font-size: 0px;
+}
+
+/*fizing jquery autocomplete*/
+.ui-menu-item{
+  float:left;
+  clear: left;
+}
+
+ /* The switch - the box around the slider */
+.switch {
+    position: fixed;
+    top: 0;
+    right: 0;
+  width: 60px;
+  height: 34px;
+  vertical-align: middle;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+  vertical-align: middle;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+  vertical-align: middle;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+} 
+
+small{
+    position: absolute;
+    top: 100%;
+    right: 20%;
+}
+
+#TitleInline {
+  text-align: center;
+  font-family: 'Inconsolata'; 
+
+}
+
+#Modaltitle {
+  font: 16px sans-serif;
+  font-family: 'Karla'; 
+  text-align: center;
+  font-weight: bold;
+}
+
+#pExample {
+  font: 12px sans-serif;
+  font-family: 'Karla'; 
+  letter-spacing: 1.2px;
+}
+
+
+
+        </style>
+    </head>
+
+
+    <body>
+<!--         <script src="https://code.jquery.com/jquery-3.2.1.js"></script> -->
+        <script type="text/javascript">
+
+
+
+            var fullWidth = window.innerWidth*1;
+            var fullHeight = window.innerHeight*1;
+
+            // var fullWidth = 1100;
+            // var fullHeight = 900;
+            var margin = {top:0, right:0, bottom:0, left:0};  //Top, right, bottom, left
+
+            var width = fullWidth - margin.left - margin.right;
+            var height = fullHeight - margin.top - margin.bottom;
+
+            var colorScale = d3.scaleLinear().range(["grey"]);
+
+            var xScale = d3.scaleLinear().range([0 + 100, width -100]);
+
+            // top to bottom:
+            var yScale = d3.scaleLinear().range([ height - 100, 0 + 100 ]);
+
+            var xAxis = d3.axisBottom().scale(xScale);
+
+            var yAxis = d3.axisLeft().scale(yScale);
+
+
+            var svg = d3.select("body")
+                        .append("svg")
+                        .attr("width", fullWidth)
+                        .attr("height", fullHeight)
+                        .append("g")
+                            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            var zoom = d3.zoom()
+              // no longer in d3 v4 - zoom initialises with zoomIdentity, so it's already at origin
+              // .translate([0, 0]) 
+              // .scale(1) 
+              .scaleExtent([1, 8])
+              .on("zoom", zoomed);
+
+            svg
+            .call(zoom); // delete this line to disable free zooming
+            // .call(zoom.event); // not in d3 v4
+
+            d3.select("body").on("keypress", function() {
+          svg.transition().duration(500).call(zoom.transform, d3.zoomIdentity)          
+        });
+
+
+            var gradient = svg.append("defs")
+                  .append("linearGradient")
+                    .attr("id", "gradient")
+                    .attr("x1", "25%")
+                    .attr("y1", "25%")
+                    .attr("x2", "100%")
+                    .attr("y2", "100%")
+                    .attr("spreadMethod", "pad");
+
+                gradient.append("stop")
+                    .attr("offset", "0%")
+                    .attr("stop-color", "#34AAE0")
+                    .attr("stop-opacity", 0.25);
+
+                gradient.append("stop")
+                    .attr("offset", "100%")
+                    .attr("stop-color", "#E91D0E")
+                    .attr("stop-opacity", 0.25);
+
+                svg.append("rect")
+                    .attr("width", width)
+                    .attr("height", height)
+                    .style("fill", "url(#gradient)");
+
+
+
+            d3.json("data.json", function(data) {
+
+                xScale.domain(
+                    d3.extent(data, function(d) {
+                        return +d.x;
+                    }));
+
+                yScale.domain(
+                    d3.extent(data, function(d) {
+                        return +d.y;
+                    }));
+
+        // SEARCH BOX
+
+          all_terms = [];
+          var DataLength = data.length;
+
+          // loop through row_nodes
+          for (i=0; i<DataLength; i++){
+            all_terms.push( data[i]['word'] ); 
+          };
+
+  //           // use Jquery autocomplete
+  // ////////////////////////////////
+  // $(document).ready(function(){
+  // $( "#word_search_box" ).autocomplete({
+  //   source: all_terms
+  // });
+
+//   $( "#word_search_box" ).keyup(function(){
+//    $( "#word_search_box" ).autocomplete({
+//       source: all_terms
+//    });
+// });
+
+$( "#word_search_box" ).keyup(function(){
+   $( "#word_search_box" ).autocomplete({
+      source: all_terms
+   });
+});
+
+
+
+
+
+                var circles = svg.selectAll("circle")
+                                .data(data)
+                                .enter()
+                                .append("circle");
+
+                circles.attr("cx", function(d) {
+                        return xScale(+d.x);
+                    })
+                    .attr("cy", function(d) {
+                        return yScale(+d.y);
+                    })
+                    .attr("r", 2)
+                    .style("fill", 'red')
+                    .style("stroke", 'black')
+                    .attr("id", function(d) {
+                        return d.word.replace(/\s+/g, '-').toLowerCase();
+                    })
+                    .attr('id','curcles')
+                    .append("title")
+                    .text(function(d) {
+                        return d.word;
+                    });
+
+                var labels = svg.selectAll("text")
+                    .data(data)
+                    .enter()
+                    .append("text")
+                    .attr('class','row_label_text')
+                    .attr("id", function(d) {
+                        return d.word.replace(/\s+/g, '-').toLowerCase();
+                    })
+                    .text(function(d) {return d.word;})
+                    .attr("x", function(d) {
+                        return xScale(+d.x);
+                    })
+                    .attr("y", function(d) {
+                        return yScale(+d.y);
+                    })
+                    .attr("dx", 2)
+                    .attr("dy", 2)
+                    .attr("font-size", 10)
+                    .attr("text-anchor", "start")
+                    .attr("transform", "translate(1.5,1.5)")
+                    .classed("hidden", false)
+
+
+
+                    .on("click", function (d) {
+                        return d3.select(this).classed("hidden", true);
+                    });
+
+                                      d3.selectAll("#curcles").on("click", function(d) {
+
+  document.querySelector("#Modaltitle").innerHTML = d.word
+  document.querySelector("#pExample").innerHTML = d.example
+  console.log(d.sentiment)
+  
+  });
+
+
+                // circles.on('click', function() {
+                //     var word = d3.select(this).attr("id");
+                //     d3.selectAll("#"+word).classed("hidden", false);
+                // });
+
+
+                svg.append("g")
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(xAxis);
+
+                svg.append("g")
+                    .attr("class", "y axis")
+                    .call(yAxis);
+
+                  // text label for the x axis
+                  svg.append("text")             
+                      .attr("transform",
+                            "translate(" + (width - 10) + " ," + (height/1.05) + ")")
+                      .style("text-anchor", "end")
+                      .text("Republican Frequency → ");
+
+                  // text label for the y axis
+                  svg.append("text")
+                      .attr("transform", "rotate(-90)")
+                      .attr("y", 0)
+                      .attr("x",-40)
+                      .attr("dy", "1em")
+                      .style("text-anchor", "end")
+                      .text("Democrat Frequency →");  
+
+              svg.selectAll('#curcles')
+                    .attr('href', '#')
+                    .attr('type', 'plants-family')
+                    .attr('data-toggle', 'modal')
+                    .attr('data-target', '#myModal').style('cursor', 'pointer');
+
+
+var switchStatus = true;
+$("#togBtn").on('change', function() {
+    if ($(this).is(':checked')) {
+        switchStatus = $(this).is(':checked');
+        d3.selectAll(".row_label_text").classed("hidden", true);// To verify
+    }
+    else {
+       switchStatus = $(this).is(':checked');
+       console.log('Checked')
+       d3.selectAll(".row_label_text").classed("hidden", false);// To verify
+    }
+});
+
+$('#myRange').on('change',function(){
+    var val = $(this).val();
+    d3.selectAll(".row_label_text").style('font-size',val);
+});
+
+
+            });
+
+function zoomed() {
+  // g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")"); // not in d3 v4
+  svg.attr("transform", d3.event.transform); // updated for d3 v4
+}
+
+function find_word_in_clust(){
+  search_word = $('#word_search_box').val();
+
+  if (all_terms.indexOf(search_word) != -1){
+    highlight_found_word(search_word);
+    
+  }
+
+};
+
+var pre;
+
+function highlight_found_word(search_word){
+
+  search_word = search_word.replace(/\s+/g, '-').toLowerCase();
+
+
+  d3.selectAll('#' + pre)
+    .style('text-shadow','0px 0px black')
+    .style('font-size',10)
+    .style('z-index',1)
+    .style('fill','black');
+  // console.log(d3.selectAll('#' + search_word))
+  // make row name bold 
+  d3.selectAll('#' + search_word)
+    .style('text-shadow','1px 1px black')
+    .style('opacity',1)
+    .attr('z-index',1000)
+    .style('font-size',30)
+    .style('fill','red');
+
+  pre = search_word
+  console.log(pre)
+  console.log(pre.replace(/\s+/g, '-').toLowerCase())
+
+};
+
+
+
+        </script>
+
+    </body>
+
+     <label class="switch">
+  <input type="checkbox" id="togBtn" value="true" name="disableYXLogo">
+  <span class="slider round"></span>
+  <small> Labels </small>
+</label>
+
+<div class="slidecontainer">
+<input type="range" min="1" max="19" class="slider2" id="myRange">
+</div>
+
+              
+                  <div id='gene_search_container' class='row'>
+                      <input id='word_search_box' type="text" class="form-control" placeholder="Find word" aria-describedby="sizing-addon2">
+
+                      <div id='word_search_button' class="btn-group" data-toggle="buttons" >
+                        <label id='gene_search_submit' class="btn btn-primary active " onclick="find_word_in_clust();">
+                          <input type="radio" name="options" id="" autocomplete="true" checked > Search
+                        </label>
+                      </div>
+                  </div>
+</html>
